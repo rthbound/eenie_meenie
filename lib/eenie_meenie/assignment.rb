@@ -6,8 +6,7 @@ module EenieMeenie
     end
 
     def execute!
-      groups = @sorter.new(groups: @groups, population: @population).sort
-      return EenieMeenie::Result.new(groups: groups, population: @population)
+      group = assign
     end
 
     private
@@ -17,6 +16,8 @@ module EenieMeenie
       group_tally = count_for_group(group)
       other_group = (@groups - [group]).first
       group = other_group if group_tally > count_for_group(other_group) + rand(7)
+
+      return group
     end
 
     def count_for_group(group)
