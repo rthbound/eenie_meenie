@@ -10,7 +10,7 @@ module EenieMeenie
         @groups.each { |group| results.merge!(group => 0) }
 
         @population.times do |i|
-          results[(rand(@population) >= (@population / 2) + results.values.inject(&:-) ? @groups.first : @groups.last)] += 1
+          results[(rand(@population) > (@population / 2) ? @groups.first : @groups.last)] += 1
         end
         groups = results
       end
