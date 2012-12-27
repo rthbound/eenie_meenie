@@ -12,9 +12,9 @@ module EenieMeenie
     private
 
     def assign
-      coercion_threshold_reached? ? assign_with_coercion : assign_without_coercion
+      group = coercion_threshold_reached? ? assign_with_coercion : assign_without_coercion
 
-      return group
+      group
     end
 
     def count_for_group(group)
@@ -35,6 +35,8 @@ module EenieMeenie
       group_tally = count_for_group(group)
       other_group = (@groups - [group]).first
       group = other_group if group_tally > count_for_group(other_group) + rand(leeway)
+
+      group
     end
 
     def expected_population
