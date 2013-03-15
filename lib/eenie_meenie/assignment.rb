@@ -2,7 +2,7 @@ module EenieMeenie
   class Assignment < ::EenieMeenie::Base
     def initialize(options)
       load_options(:groups, :member_class, options)
-      raise ArgumentError unless @member_class.respond_to?(:group)
+      raise ArgumentError unless @member_class.respond_to?(:experimental_group)
     end
 
     def execute!
@@ -18,7 +18,7 @@ module EenieMeenie
     end
 
     def count_for_group(group)
-      @member_class.where(group: group).count
+      @member_class.where(experimental_group: group).count
     end
 
     def assign_without_coercion
@@ -40,7 +40,7 @@ module EenieMeenie
     end
 
     def expected_population
-      60000.to_f
+      10000.to_f
     end
 
     def current_population
