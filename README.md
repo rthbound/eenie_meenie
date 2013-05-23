@@ -30,13 +30,13 @@ Example Configurations
 # Experimental A: %50   (randomly assign)
 # Experimental B: %50   (randomly assign)
 
-EenieMeenie::Assignment.new({
+EenieMeenie::PolyAssignment.new({
   groups: ["Experimental A", "Experimental B"],  # EenieMeenie's assignment options
   member: @obj,                                  # Member of population
   group_rules: {
-    "Control"         => { threshold: false },   # Don't care
-    "Experimental A"  => { threshold: 0.5 },     # No more than 50%
-    "Experimental B" => { threshold: 0.5 }       # No more than 50%
+    "Control"        => { threshold: false },    # Don't care
+    "Experimental A" => { threshold: 0.5 },      # No more than 50%
+    "Experimental B" =>  { threshold: 0.5 }      # No more than 50%
   },
   class_rules: { organization_id: 1}             # Only consider members belonging to Organization 1
 }).execute!
@@ -47,13 +47,13 @@ EenieMeenie::Assignment.new({
 # Experimental A: %33.3   (randomly assign)
 # Experimental B: %33.3   (randomly assign)
 
-EenieMeenie::Assignment.new({
+EenieMeenie::PolyAssignment.new({
   groups: ["Control", "Experimental A", "Experimental B"],      # EenieMeenie's assignment options
   member: @obj,                                      # Member of population
   group_rules: {
     "Control"         => { threshold: (1.0 / 3.0) },    # No more than one-third
     "Experimental A"  => { threshold: (1.0 / 3.0) },    # No more than one-third
-    "Experimental B" => { threshold: (1.0 / 3.0) }     # No more than one-third
+    "Experimental B" => { threshold:  (1.0 / 3.0) }     # No more than one-third
   },
   class_rules: { organization_id: 1} # Only consider members belonging to Organization 1
 }).execute!
@@ -69,7 +69,7 @@ EenieMeenie::Assignment.new({
 # Later someone will choose whether they're in "Experimental A" ...
 # or in "Experimental B"
 
-EenieMeenie::Assignment.new({
+EenieMeenie::PolyAssignment.new({
   groups: ["Control", "Experimental"],       # EenieMeenie's assignment options
   member: @obj,                              # Member of population
   group_rules: {
