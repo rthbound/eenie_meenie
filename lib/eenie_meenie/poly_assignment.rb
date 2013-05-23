@@ -32,6 +32,8 @@ module EenieMeenie
       @group_candidates ||= @group_rules.reject { |k,v|
         v[:threshold] && (v[:count] / @members.count.to_f) >= v[:threshold]
       }.keys.map(&:to_s)
+
+      @group_candidates.select {|cand| @groups.include?(cand) }
     end
 
     def random_group
