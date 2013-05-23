@@ -1,7 +1,7 @@
 EenieMeenie
 ========
 
-This tool was written in order to play with some simple methods for assigning members of a population to one of two groups. The goal is to provide an algorithm that will limit the user's ability to predict which group a member will be assigned.
+This tool was written in order to play with some simple methods for assigning members of a population to one of two groups. The goal was initially to provide an algorithm that will limit the user's ability to predict which group a member will be assigned.
 
 Installation
 ------------
