@@ -35,8 +35,8 @@ EenieMeenie::Assignment.new({
   member: @obj,                                  # Member of population
   group_rules: {
     "Control"         => { threshold: false },   # Don't care
-    "Full-Incentive"  => { threshold: 0.5 },     # No more than 50%
-    "Split-Incentive" => { threshold: 0.5 }      # No more than 50%
+    "Experimental A"  => { threshold: 0.5 },     # No more than 50%
+    "Experimental B" => { threshold: 0.5 }       # No more than 50%
   },
   class_rules: { organization_id: 1}             # Only consider members belonging to Organization 1
 }).execute!
@@ -52,8 +52,8 @@ EenieMeenie::Assignment.new({
   member: @obj,                                      # Member of population
   group_rules: {
     "Control"         => { threshold: (1.0 / 3.0) },    # No more than one-third
-    "Full-Incentive"  => { threshold: (1.0 / 3.0) },    # No more than one-third
-    "Split-Incentive" => { threshold: (1.0 / 3.0) }     # No more than one-third
+    "Experimental A"  => { threshold: (1.0 / 3.0) },    # No more than one-third
+    "Experimental B" => { threshold: (1.0 / 3.0) }     # No more than one-third
   },
   class_rules: { organization_id: 1} # Only consider members belonging to Organization 1
 }).execute!
