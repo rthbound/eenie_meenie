@@ -1,7 +1,8 @@
 EenieMeenie
 ========
 
-This tool was written in order to play with some simple methods for assigning members of a population to one of two groups. The goal was initially to provide an algorithm that would limit the user's ability to predict to which group a member will be assigned.
+This tool was written in order to play with some simple methods for assigning members of a population to an experimental group.
+The goal was initially to provide an algorithm that would limit the user's ability to predict to which group a member will be assigned.
 
 Installation
 ------------
@@ -36,7 +37,7 @@ EenieMeenie::PolyAssignment.new({
   group_rules: {
     "Control"        => { threshold: false },    # Don't care
     "Experimental A" => { threshold: 0.5 },      # No more than 50%
-    "Experimental B" =>  { threshold: 0.5 }      # No more than 50%
+    "Experimental B" => { threshold: 0.5 }       # No more than 50%
   },
   class_rules: { organization_id: 1}             # Only consider members belonging to Organization 1
 }).execute!
@@ -61,7 +62,7 @@ EenieMeenie::PolyAssignment.new({
 
 ```ruby
 # Control:        %50         (randomly assign)
-# Experimental:   Do not care (randomly assign)
+# Experimental:   %50         (randomly assign)
 # Experimental A: Do not care (manually assign)
 # Experimental B: Do not care (manually assign)
 
@@ -73,13 +74,22 @@ EenieMeenie::PolyAssignment.new({
   groups: ["Control", "Experimental"],       # EenieMeenie's assignment options
   member: @obj,                              # Member of population
   group_rules: {
-    "Control"        => { threshold: 0.5 },   # No more than one-third
-    "Experimental"   => { threshold: false }, # Don't care
+    "Control"        => { threshold: 0.5 },   # No more than one half
+    "Experimental"   => { threshold: 0.5 },   # No more than one half
     "Experimental A" => { threshold: false }  # Don't care
     "Experimental B" => { threshold: false }  # Don't care
   }
 }).execute!
 ```
+
+### Soon
+
+Just a heads up.  There is a lot of clutter in the repository.
+Most of the clutter represents little service objects for algorithms that were briefly considered.
+The rest are service objects I used to run those algorithms N-times and report back with statistics.
+
+Over the next few days I'll be stripping these classes from the repository.
+I also intend to replace the current `EenieMeenie::Assignment` algorithm with the new `EenieMeenie::PolyAssignment` algorithm.
 
 ### Pull requests/issues
 
