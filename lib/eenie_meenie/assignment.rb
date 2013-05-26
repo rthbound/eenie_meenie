@@ -1,11 +1,11 @@
 module EenieMeenie
-  class PolyAssignment < PayDirt::Base
+  class Assignment < PayDirt::Base
     def initialize(options)
       options = {
         class_rules: {}
       }.merge(options)
 
-      load_options(:group_rules, :class_rules, :groups, :member, options)
+      load_options(:member, :class_rules, :groups, :group_rules, options)
     end
 
     def execute!
