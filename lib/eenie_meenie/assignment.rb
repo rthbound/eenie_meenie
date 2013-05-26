@@ -1,62 +1,43 @@
 module EenieMeenie
-  class Assignment < ::EenieMeenie::Base
+  class PolyAssignment < PayDirt::Base
     def initialize(options)
-      load_options(:groups, :member_class, options)
-      #raise ArgumentError unless @member_class.respond_to?(:experimental_group)
+      options = {
+        class_rules: {}
+      }.merge(options)
+
+      load_options(:group_rules, :class_rules, :groups, :member, options)
     end
 
     def execute!
-      group = assign
+      set_group_counts
+      return random_group
     end
 
     private
 
-    def assign
-      group = coercion_threshold_reached? ? assign_with_coercion : assign_without_coercion
-
-      group
+    # Total population
+    def population
+      @members ||= @member.class.where(@class_rules)
     end
 
-    def count_for_group(group)
-      @member_class.where(experimental_group: group).count
-    end
-
-    def assign_without_coercion
-      selected_group = @groups.sample
-      if rand(expected_population) >= (expected_population / 2)
-        group = selected_group
-      else
-        group = the_other_group(selected_group)
+    # Current population in each group
+    def set_group_counts
+      @group_rules.each do |k,v|
+        v[:count] = population.where(experimental_group: k.to_s).count
       end
     end
 
-    def assign_with_coercion
-      group = @groups.sample
-      group_tally = count_for_group(group)
-      other_group = (@groups - [group]).first
-      group = other_group if group_tally > count_for_group(other_group) + rand(leeway)
+    # Groups not over threshold
+    def group_candidates
+      @group_candidates ||= @group_rules.reject { |k,v|
+        v[:threshold] && (v[:count] / @members.count.to_f) >= v[:threshold]
+      }.keys.map(&:to_s)
 
-      group
+      @group_candidates.select {|cand| @groups.include?(cand) }
     end
 
-    def expected_population
-      60000.to_f
-    end
-
-    def current_population
-      @member_class.count.to_f
-    end
-
-    def leeway
-      ((current_population / 2 ) * 0.01).round
-    end
-
-    def the_other_group group
-      (@groups - [group]).first
-    end
-
-    def coercion_threshold_reached?
-      (current_population / expected_population) >= 0.9
+    def random_group
+      group_candidates.sample || @groups.sample
     end
   end
 end
