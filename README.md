@@ -1,22 +1,19 @@
 EenieMeenie
 ========
 
-This tool was written in order to play with some simple methods for assigning members of a population to an experimental group.
-The goal was initially to provide an algorithm that would limit the user's ability to predict to which group a member will be assigned.
+Decides to which experimental group a member of a population should be assigned.
 
 Installation
 ------------
 
-EenieMeenie is a Ruby gem, and can be installed using `gem install eenie_meenie`
+EenieMeenie is a Ruby gem, and can be installed using `gem install eenie_meenie` or by adding the following to your application's Gemfile:
+
+    gem 'eenie_meenie', '0.1.0'
 
 Usage
 -----
 
-EenieMeenie currently provides two algorithms for assigning members to experimental groups.
-
-`EenieMeenie::Assignment` was the first algorithm, and was intended to handle situations where members of a population are to be assigned to ONE of TWO groups.  As I started working with a greater variety of research studies, I found the algorithm to be both overcomplicated and inadequate.
-
-`EeenieMeenie::PolyAssignment` is a new algorithm.  With this algorithm you'll be able to:
+Attention! The usage of `EeenieMeenie::Assignment` changed with the release of version 0.1.0.  With the new algorithm you'll be able to:
 
 1. Assign a threshold (a `Float` to represent percentage) to each experimental group.
 2. Assign a threshold of "DO NOT CARE" to any group by passing `false` instead of a `Float`
@@ -31,7 +28,7 @@ Example Configurations
 # Experimental A: %50   (randomly assign)
 # Experimental B: %50   (randomly assign)
 
-EenieMeenie::PolyAssignment.new({
+EenieMeenie::Assignment.new({
   groups: ["Experimental A", "Experimental B"],  # EenieMeenie's assignment options
   member: @obj,                                  # Member of population
   group_rules: {
@@ -48,7 +45,7 @@ EenieMeenie::PolyAssignment.new({
 # Experimental A: %33.3   (randomly assign)
 # Experimental B: %33.3   (randomly assign)
 
-EenieMeenie::PolyAssignment.new({
+EenieMeenie::Assignment.new({
   groups: ["Control", "Experimental A", "Experimental B"],      # EenieMeenie's assignment options
   member: @obj,                                      # Member of population
   group_rules: {
@@ -70,7 +67,7 @@ EenieMeenie::PolyAssignment.new({
 # Later someone will choose whether they're in "Experimental A" ...
 # or in "Experimental B"
 
-EenieMeenie::PolyAssignment.new({
+EenieMeenie::Assignment.new({
   groups: ["Control", "Experimental"],       # EenieMeenie's assignment options
   member: @obj,                              # Member of population
   group_rules: {
@@ -82,15 +79,6 @@ EenieMeenie::PolyAssignment.new({
 }).execute!
 ```
 
-### Soon
-
-Just a heads up.  There is a lot of clutter in the repository.
-Most of the clutter represents little service objects for algorithms that were briefly considered.
-The rest are service objects I used to run those algorithms N-times and report back with statistics.
-
-Over the next few days I'll be stripping these classes from the repository.
-I also intend to replace the current `EenieMeenie::Assignment` algorithm with the new `EenieMeenie::PolyAssignment` algorithm.
-
 ### Pull requests/issues
 
-Please submit any useful pull requests through GitHub. Please report any bugs using Github's issue tracker
+Please submit any useful pull requests through GitHub. Please report any bugs using Github's issue tracker.
