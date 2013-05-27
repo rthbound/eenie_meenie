@@ -22,6 +22,9 @@ describe EenieMeenie::Assignment do
       @member.expect       :class, @member_class
       @member_class.expect :where, @relation, [{}]
       @relation.expect     :where, @relation, [{:experimental_group=>"Control"}]
+      @relation.expect     :where, @relation, [{:experimental_group=>"Experimental"}]
+      @relation.expect     :count, 42
+      @relation.expect     :count, 42
       @relation.expect     :count, 42
       @relation.expect     :count, 42
       @subject = EenieMeenie::Assignment
@@ -47,11 +50,45 @@ describe EenieMeenie::Assignment do
       result = @subject.new(@minimum_dependencies.merge({
         groups: ["Control"],
         group_rules: {
-          "Control"      => { threshold: 1.0 }
+          "Control"      => { threshold: 1 },
+        }
+      })).execute!
+
+      result.must_equal "Control"
+    end
+
+    it "it defaults to a threshold of 100% if no threshold is provided" do
+      result = @subject.new(@minimum_dependencies.merge({
+        groups: ["Control"],
+        group_rules: {
+          "Control"      => { }
         }
       })).execute!
 
       assert_equal result, "Control"
+    end
+
+    it "it defaults to a threshold of 100% if provided threshold is false(y)" do
+      result = @subject.new(@minimum_dependencies.merge({
+        groups: ["Control"],
+        group_rules: {
+          "Control"      => { threshold: false }
+        }
+      })).execute!
+
+      assert_equal result, "Control"
+    end
+
+    it "returns a result from the groups provided" do
+      result = @subject.new(@minimum_dependencies.merge({
+        groups: @groups,
+        group_rules: {
+          "Control"      => { threshold: 0.51 },
+          "Experimental" => { threshold: 0.51 }
+        }
+      })).execute!
+
+      @groups.must_include result
     end
   end
 end

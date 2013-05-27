@@ -19,9 +19,27 @@ Attention! The usage of `EeenieMeenie::Assignment` changed with the release of v
 2. Assign a threshold of "DO NOT CARE" to any group by passing `false` instead of a `Float`
 3. Tell EeenieMeenie which groups can be assigned by the algorithm.  Any group with a threshold should be included here.
 4. Tell it how to scope the member class (tell it which study, if you're using one member class for all studies)
+5. Specify the population to be used when calculating whether a group's population threshold has been reached.
 
 Example Configurations
 ----------------------
+
+eenie_meenie users can specify the population
+using the :members option, e.g.
+
+```ruby
+EenieMeenie::Assignment.new({
+  member:  @some_member,
+  members: MemberClass.where(something).joins(another),
+  groups:  ["Experimental", "Control"],
+  group_rules: {
+    "Experimental" => { threshold: 0.51 },
+    "Control"      => { threshold: 0.51 }
+  }
+})
+```
+
+Other examples ...
 
 ```ruby
 # Control: Do not care  (chosen manually, if ever)
@@ -46,12 +64,12 @@ EenieMeenie::Assignment.new({
 # Experimental B: %33.3   (randomly assign)
 
 EenieMeenie::Assignment.new({
-  groups: ["Control", "Experimental A", "Experimental B"],      # EenieMeenie's assignment options
-  member: @obj,                                      # Member of population
+  groups: ["Control", "Experimental A", "Experimental B"], # EenieMeenie's assignment options
+  member: @obj,                                            # Member of population
   group_rules: {
-    "Control"         => { threshold: (1.0 / 3.0) },    # No more than one-third
-    "Experimental A"  => { threshold: (1.0 / 3.0) },    # No more than one-third
-    "Experimental B" => { threshold:  (1.0 / 3.0) }     # No more than one-third
+    "Control"         => { threshold: (1.0 / 3.0) },       # No more than one-third
+    "Experimental A"  => { threshold: (1.0 / 3.0) },       # No more than one-third
+    "Experimental B" => { threshold:  (1.0 / 3.0) }        # No more than one-third
   },
   class_rules: { organization_id: 1} # Only consider members belonging to Organization 1
 }).execute!
