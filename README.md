@@ -1,4 +1,4 @@
-EenieMeenie
+EenieMeenie <img src="https://badge.fury.io/rb/eenie_meenie.png" alt="Gem Version" /> <img src="https://travis-ci.org/rthbound/eenie_meenie.png?branch=master" alt="Build Status" />
 ========
 
 Decides to which experimental group a member of a population should be assigned.
