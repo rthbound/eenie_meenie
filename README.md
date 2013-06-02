@@ -1,5 +1,4 @@
-EenieMeenie <img src="https://badge.fury.io/rb/eenie_meenie.png" alt="Gem Version" /> <img src="https://travis-ci.org/rthbound/eenie_meenie.png?branch=master" alt="Build Status" /> [![Coverage Status](https://coveralls.io/repos/rthbound/eenie_meenie/badge.png?branch=master)](https://coveralls.io/r/rthbound/eenie_meenie?branch=master)
-
+EenieMeenie [![Gem Version](https://badge.fury.io/rb/eenie_meenie.png)](http://badge.fury.io/rb/eenie_meenie)[![Build Status](https://travis-ci.org/rthbound/eenie_meenie.png?branch=master)](https://travis-ci.org/rthbound/eenie_meenie)[![Coverage Status](https://coveralls.io/repos/rthbound/eenie_meenie/badge.png?branch=master)](https://coveralls.io/r/rthbound/eenie_meenie?branch=master)
 ========
 
 Decides to which experimental group a member of a population should be assigned.
