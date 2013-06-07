@@ -10,7 +10,7 @@ Installation
 
 EenieMeenie is a Ruby gem, and can be installed using `gem install eenie_meenie` or by adding the following to your application's Gemfile:
 
-    gem 'eenie_meenie', '0.1.1'
+    gem 'eenie_meenie', '1.0.0'
 
 Usage
 -----
