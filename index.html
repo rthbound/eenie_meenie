@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>Eenie meenie by rthbound</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>Eenie meenie</h1>
+        <h2>For a member of a population, randomly chooses to which experimental group the member should be assigned.  Lots of configuration options.</h2>
+        <a href="https://github.com/rthbound/eenie_meenie" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="eeniemeenie" class="anchor" href="#eeniemeenie"><span class="octicon octicon-link"></span></a>EenieMeenie</h1>
+
+<p><a href="http://badge.fury.io/rb/eenie_meenie"><img src="https://badge.fury.io/rb/eenie_meenie.png" alt="Gem Version"></a> <a href="https://travis-ci.org/rthbound/eenie_meenie"><img src="https://travis-ci.org/rthbound/eenie_meenie.png?branch=master" alt="Build Status"></a> <a href="https://coveralls.io/r/rthbound/eenie_meenie?branch=master"><img src="https://coveralls.io/repos/rthbound/eenie_meenie/badge.png?branch=master" alt="Coverage Status"></a> <a href="https://codeclimate.com/github/rthbound/eenie_meenie"><img src="https://codeclimate.com/github/rthbound/eenie_meenie.png" alt="Code Climate"></a></p>
+
+<p>Decides to which experimental group a member of a population should be assigned.</p>
+
+<h2>
+<a name="installation" class="anchor" href="#installation"><span class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>EenieMeenie is a Ruby gem, and can be installed using <code>gem install eenie_meenie</code> or by adding the following to your application's Gemfile:</p>
+
+<pre><code>gem 'eenie_meenie', '0.1.1'
+</code></pre>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>When using this gem, you'll be able to:</p>
+
+<ol>
+<li>Assign as a threshold a number somewhere in the range of (0,1] to each experimental group.</li>
+<li>Assign a threshold of "DO NOT CARE" to any group by passing <code>false</code> instead of a number.</li>
+<li>Tell it to which groups a member can be assigned.  Any group with a threshold should be included here (otherwise the threshold is pointless).</li>
+<li>Tell it how to scope the member class (tell it which study, if you're using one member class for all studies)</li>
+<li>Specify the population to be used when calculating whether a group's population threshold has been reached.</li>
+</ol><h2>
+<a name="example-configurations" class="anchor" href="#example-configurations"><span class="octicon octicon-link"></span></a>Example Configurations</h2>
+
+<p>eenie_meenie users can specify the population
+using the :members option, e.g.</p>
+
+<div class="highlight"><pre><span class="ss">EenieMeenie</span><span class="p">:</span><span class="ss">:Assignment</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+  <span class="ss">member</span><span class="p">:</span>  <span class="vi">@some_member</span><span class="p">,</span>
+  <span class="ss">members</span><span class="p">:</span> <span class="no">MemberClass</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">something</span><span class="p">)</span><span class="o">.</span><span class="n">joins</span><span class="p">(</span><span class="n">another</span><span class="p">),</span>
+  <span class="ss">groups</span><span class="p">:</span>  <span class="o">[</span><span class="s2">"Experimental"</span><span class="p">,</span> <span class="s2">"Control"</span><span class="o">]</span><span class="p">,</span>
+  <span class="n">group_rules</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"Experimental"</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">51</span> <span class="p">},</span>
+    <span class="s2">"Control"</span>      <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">51</span> <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+</pre></div>
+
+<p>Other examples ...</p>
+
+<div class="highlight"><pre><span class="c1"># Control: Do not care  (chosen manually, if ever)</span>
+<span class="c1"># Experimental A: %50   (randomly assign)</span>
+<span class="c1"># Experimental B: %50   (randomly assign)</span>
+
+<span class="ss">EenieMeenie</span><span class="p">:</span><span class="ss">:Assignment</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+  <span class="ss">groups</span><span class="p">:</span> <span class="o">[</span><span class="s2">"Experimental A"</span><span class="p">,</span> <span class="s2">"Experimental B"</span><span class="o">]</span><span class="p">,</span>  <span class="c1"># EenieMeenie's assignment options</span>
+  <span class="ss">member</span><span class="p">:</span> <span class="vi">@obj</span><span class="p">,</span>                                  <span class="c1"># Member of population</span>
+  <span class="n">group_rules</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"Control"</span>        <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span> <span class="kp">false</span> <span class="p">},</span>    <span class="c1"># Don't care</span>
+    <span class="s2">"Experimental A"</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span> <span class="p">},</span>      <span class="c1"># No more than 50%</span>
+    <span class="s2">"Experimental B"</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span> <span class="p">}</span>       <span class="c1"># No more than 50%</span>
+  <span class="p">},</span>
+  <span class="n">class_rules</span><span class="p">:</span> <span class="p">{</span> <span class="n">organization_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>             <span class="c1"># Only consider members belonging to Organization 1</span>
+<span class="p">})</span><span class="o">.</span><span class="n">execute!</span>
+</pre></div>
+
+<div class="highlight"><pre><span class="c1"># Control:        %33.3   (randomly assign)</span>
+<span class="c1"># Experimental A: %33.3   (randomly assign)</span>
+<span class="c1"># Experimental B: %33.3   (randomly assign)</span>
+
+<span class="ss">EenieMeenie</span><span class="p">:</span><span class="ss">:Assignment</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+  <span class="ss">groups</span><span class="p">:</span> <span class="o">[</span><span class="s2">"Control"</span><span class="p">,</span> <span class="s2">"Experimental A"</span><span class="p">,</span> <span class="s2">"Experimental B"</span><span class="o">]</span><span class="p">,</span> <span class="c1"># EenieMeenie's assignment options</span>
+  <span class="ss">member</span><span class="p">:</span> <span class="vi">@obj</span><span class="p">,</span>                                            <span class="c1"># Member of population</span>
+  <span class="n">group_rules</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"Control"</span>         <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="o">/</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span> <span class="p">},</span>       <span class="c1"># No more than one-third</span>
+    <span class="s2">"Experimental A"</span>  <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="o">/</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span> <span class="p">},</span>       <span class="c1"># No more than one-third</span>
+    <span class="s2">"Experimental B"</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span>  <span class="p">(</span><span class="mi">1</span><span class="o">.</span><span class="mi">0</span> <span class="o">/</span> <span class="mi">3</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span> <span class="p">}</span>        <span class="c1"># No more than one-third</span>
+  <span class="p">},</span>
+  <span class="n">class_rules</span><span class="p">:</span> <span class="p">{</span> <span class="n">organization_id</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span> <span class="c1"># Only consider members belonging to Organization 1</span>
+<span class="p">})</span><span class="o">.</span><span class="n">execute!</span>
+</pre></div>
+
+<div class="highlight"><pre><span class="c1"># Control:        %50         (randomly assign)</span>
+<span class="c1"># Experimental:   %50         (randomly assign)</span>
+<span class="c1"># Experimental A: Do not care (manually assign)</span>
+<span class="c1"># Experimental B: Do not care (manually assign)</span>
+
+<span class="c1"># If "Control" is too full, put them in "Experimental"          ...</span>
+<span class="c1"># Later someone will choose whether they're in "Experimental A" ...</span>
+<span class="c1"># or in "Experimental B"</span>
+
+<span class="ss">EenieMeenie</span><span class="p">:</span><span class="ss">:Assignment</span><span class="o">.</span><span class="n">new</span><span class="p">({</span>
+  <span class="ss">groups</span><span class="p">:</span> <span class="o">[</span><span class="s2">"Control"</span><span class="p">,</span> <span class="s2">"Experimental"</span><span class="o">]</span><span class="p">,</span>       <span class="c1"># EenieMeenie's assignment options</span>
+  <span class="ss">member</span><span class="p">:</span> <span class="vi">@obj</span><span class="p">,</span>                              <span class="c1"># Member of population</span>
+  <span class="n">group_rules</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">"Control"</span>        <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span> <span class="p">},</span>  <span class="c1"># No more than one half</span>
+    <span class="s2">"Experimental"</span>   <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span> <span class="mi">0</span><span class="o">.</span><span class="mi">5</span> <span class="p">},</span>  <span class="c1"># No more than one half</span>
+    <span class="s2">"Experimental A"</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span> <span class="kp">false</span> <span class="p">}</span> <span class="c1"># Don't care</span>
+    <span class="s2">"Experimental B"</span> <span class="o">=&gt;</span> <span class="p">{</span> <span class="ss">threshold</span><span class="p">:</span> <span class="kp">false</span> <span class="p">}</span> <span class="c1"># Don't care</span>
+  <span class="p">}</span>
+<span class="p">})</span><span class="o">.</span><span class="n">execute!</span>
+</pre></div>
+
+<h3>
+<a name="pull-requestsissues" class="anchor" href="#pull-requestsissues"><span class="octicon octicon-link"></span></a>Pull requests/issues</h3>
+
+<p>Use GitHub's issue tracker to report problems or request changes. Pull Requests are encouraged. Don't forget to add tests for any changes you'd like merged.</p>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/rthbound/eenie_meenie/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/rthbound/eenie_meenie/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/rthbound/eenie_meenie"></a> is maintained by <a href="https://github.com/rthbound">rthbound</a>.</p>
+
+          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="http://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
