@@ -1,5 +1,7 @@
-EenieMeenie <img src="https://badge.fury.io/rb/eenie_meenie.png" alt="Gem Version" /> <img src="https://travis-ci.org/rthbound/eenie_meenie.png?branch=master" alt="Build Status" />
+EenieMeenie
 ========
+
+[![Gem Version](https://badge.fury.io/rb/eenie_meenie.png)](http://badge.fury.io/rb/eenie_meenie) [![Build Status](https://travis-ci.org/rthbound/eenie_meenie.png?branch=master)](https://travis-ci.org/rthbound/eenie_meenie) [![Coverage Status](https://coveralls.io/repos/rthbound/eenie_meenie/badge.png?branch=master)](https://coveralls.io/r/rthbound/eenie_meenie?branch=master) [![Code Climate](https://codeclimate.com/github/rthbound/eenie_meenie.png)](https://codeclimate.com/github/rthbound/eenie_meenie)
 
 Decides to which experimental group a member of a population should be assigned.
 
@@ -13,11 +15,11 @@ EenieMeenie is a Ruby gem, and can be installed using `gem install eenie_meenie`
 Usage
 -----
 
-Attention! The usage of `EeenieMeenie::Assignment` changed with the release of version 0.1.0.  With the new algorithm you'll be able to:
+When using this gem, you'll be able to:
 
-1. Assign a threshold (a `Float` to represent percentage) to each experimental group.
-2. Assign a threshold of "DO NOT CARE" to any group by passing `false` instead of a `Float`
-3. Tell EeenieMeenie which groups can be assigned by the algorithm.  Any group with a threshold should be included here.
+1. Assign as a threshold a number somewhere in the range of (0,1] to each experimental group.
+2. Assign a threshold of "DO NOT CARE" to any group by passing `false` instead of a number.
+3. Tell it to which groups a member can be assigned.  Any group with a threshold should be included here (otherwise the threshold is pointless).
 4. Tell it how to scope the member class (tell it which study, if you're using one member class for all studies)
 5. Specify the population to be used when calculating whether a group's population threshold has been reached.
 
@@ -89,14 +91,14 @@ EenieMeenie::Assignment.new({
   groups: ["Control", "Experimental"],       # EenieMeenie's assignment options
   member: @obj,                              # Member of population
   group_rules: {
-    "Control"        => { threshold: 0.5 },   # No more than one half
-    "Experimental"   => { threshold: 0.5 },   # No more than one half
-    "Experimental A" => { threshold: false }  # Don't care
-    "Experimental B" => { threshold: false }  # Don't care
+    "Control"        => { threshold: 0.5 },  # No more than one half
+    "Experimental"   => { threshold: 0.5 },  # No more than one half
+    "Experimental A" => { threshold: false } # Don't care
+    "Experimental B" => { threshold: false } # Don't care
   }
 }).execute!
 ```
 
 ### Pull requests/issues
 
-Please submit any useful pull requests through GitHub. Please report any bugs using Github's issue tracker.
+Use GitHub's issue tracker to report problems or request changes. Pull Requests are encouraged. Don't forget to add tests for any changes you'd like merged.
